@@ -8,12 +8,8 @@ import {
 
 const navItems = [
   { name: "Home", href: "#" },
+  { name: "iGTB Product Innovations", href: "#innovations" },
   { name: "Centralized AI Hub", href: "#ai-hub" },
-  { name: "Product Innovations", href: "#innovations" },
-  { name: "Governance", href: "#governance" },
-  { name: "Analytics", href: "#analytics" },
-  { name: "Knowledge Base", href: "#knowledge" },
-  { name: "Contact", href: "#contact" },
 ];
 
 export const Header = () => {
