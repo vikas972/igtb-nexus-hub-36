@@ -23,7 +23,7 @@ export const AgentDetailsDialog = ({ agent, onClose }: AgentDetailsDialogProps) 
           <div className="flex justify-between items-center">
             <DialogTitle className="text-2xl font-bold text-igtb-primary">
               {agent.name}
-            </div>
+            </DialogTitle>
             <Button
               variant="ghost"
               size="icon"
