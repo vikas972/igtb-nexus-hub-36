@@ -69,13 +69,13 @@ export const AIHub = () => {
               </CardHeader>
               <CardContent>
                 <div className="flex flex-wrap gap-2">
-                  <span className="px-2 py-1 bg-blue-100 text-blue-800 rounded-full text-sm">
+                  <span className="px-2 py-1 bg-igtb-primary/10 text-igtb-primary rounded-full text-sm">
                     {agent.maturity}
                   </span>
-                  <span className="px-2 py-1 bg-green-100 text-green-800 rounded-full text-sm">
+                  <span className="px-2 py-1 bg-igtb-secondary/10 text-igtb-secondary rounded-full text-sm">
                     {agent.product}
                   </span>
-                  <span className="px-2 py-1 bg-purple-100 text-purple-800 rounded-full text-sm">
+                  <span className="px-2 py-1 bg-gray-100 text-gray-800 rounded-full text-sm">
                     {agent.status}
                   </span>
                 </div>

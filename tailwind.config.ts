@@ -25,9 +25,9 @@ export default {
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         igtb: {
-          primary: "#0FA0CE",
-          secondary: "#33C3F0",
-          accent: "#1EAEDB",
+          primary: "#00793C", // Intellect Green
+          secondary: "#F4B41A", // Mustard Yellow
+          accent: "#00793C", // Using Intellect Green for accent
         },
         primary: {
           DEFAULT: "hsl(var(--primary))",
