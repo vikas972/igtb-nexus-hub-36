@@ -9,7 +9,48 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      [_ in never]: never
+      ea_info: {
+        Row: {
+          created_at: string
+          details: Json
+          id: string
+          input_parameters: string[] | null
+          maturity: string
+          name: string
+          objective: string
+          output_parameters: string[] | null
+          product: string
+          status: string
+          type: string
+        }
+        Insert: {
+          created_at?: string
+          details?: Json
+          id?: string
+          input_parameters?: string[] | null
+          maturity: string
+          name: string
+          objective: string
+          output_parameters?: string[] | null
+          product: string
+          status: string
+          type: string
+        }
+        Update: {
+          created_at?: string
+          details?: Json
+          id?: string
+          input_parameters?: string[] | null
+          maturity?: string
+          name?: string
+          objective?: string
+          output_parameters?: string[] | null
+          product?: string
+          status?: string
+          type?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never

@@ -1,11 +1,11 @@
 import { Search, Filter, Bot } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { AgentCard } from "./AgentCard";
 import { AgentDetailsDialog } from "./AgentDetailsDialog";
 import { type Agent } from "@/types/agent";
-import { supabase } from "@/lib/supabase";
+import { supabase } from "@/integrations/supabase/client";
 import { useQuery } from "@tanstack/react-query";
 
 export const AIHub = () => {
