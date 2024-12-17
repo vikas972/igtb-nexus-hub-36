@@ -1,97 +1,38 @@
 import { Search, Filter, Bot } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { AgentCard } from "./AgentCard";
 import { AgentDetailsDialog } from "./AgentDetailsDialog";
 import { type Agent } from "@/types/agent";
-
-const agents: Agent[] = [
-  {
-    name: "Payment Processor",
-    objective: "Automate payment processing workflows",
-    maturity: "L4",
-    product: "CBX Payments",
-    status: "Production",
-    type: "automation",
-    inputParameters: ["Payment Details", "Customer Information", "Transaction Type"],
-    outputParameters: ["Transaction Status", "Payment Confirmation", "Error Details"],
-    details: {
-      profile: "AI Agent specialized in payment processing domain tasks",
-      taskObjectives: {
-        main: "Tracking progress and identifying issues",
-        implementation: "Execute payment-specific tasks efficiently",
-        details: "Monitors payment processing in real-time and predicts potential bottlenecks"
-      },
-      systemIntegration: "Collaborates with other agents in the payment ecosystem",
-      processFlow: {
-        input: "Requirements Analysis",
-        processing: "Task Execution",
-        output: "Results Validation"
-      },
-      operatingPhilosophy: "Task-focused with emphasis on accuracy",
-      performanceMetrics: "Task completion rate and accuracy",
-      operatingParameters: "Task complexity and system resources"
-    }
-  },
-  {
-    name: "Risk Analyzer",
-    objective: "Assess transaction risk levels",
-    maturity: "L3",
-    product: "Purple Fabric",
-    status: "Beta",
-    type: "automation",
-    inputParameters: ["Transaction Data", "Risk Factors", "Historical Data"],
-    outputParameters: ["Risk Score", "Risk Analysis Report", "Recommendations"],
-    details: {
-      profile: "AI Agent specialized in risk analysis domain",
-      taskObjectives: {
-        main: "Tracking risk levels and identifying threats",
-        implementation: "Execute risk assessment tasks efficiently",
-        details: "Monitors risk factors in real-time and predicts potential issues"
-      },
-      systemIntegration: "Collaborates with security and compliance agents",
-      processFlow: {
-        input: "Risk Data Analysis",
-        processing: "Risk Assessment",
-        output: "Risk Report Generation"
-      },
-      operatingPhilosophy: "Accuracy-focused with emphasis on threat detection",
-      performanceMetrics: "Detection accuracy and response time",
-      operatingParameters: "Risk complexity and system thresholds"
-    }
-  },
-  {
-    name: "DevOps Assistant",
-    objective: "Streamline deployment processes",
-    maturity: "L2",
-    product: "VAM",
-    status: "Development",
-    type: "conversation",
-    inputParameters: ["Deployment Configuration", "Environment Details", "Release Notes"],
-    outputParameters: ["Deployment Status", "Environment Health", "Performance Metrics"],
-    details: {
-      profile: "AI Agent specialized in DevOps automation",
-      taskObjectives: {
-        main: "Tracking deployment progress and identifying bottlenecks",
-        implementation: "Execute deployment tasks efficiently",
-        details: "Monitors deployment pipeline and predicts potential issues"
-      },
-      systemIntegration: "Collaborates with CI/CD tools and other automation agents",
-      processFlow: {
-        input: "Deployment Requirements",
-        processing: "Automated Deployment",
-        output: "Deployment Validation"
-      },
-      operatingPhilosophy: "Automation-focused with emphasis on reliability",
-      performanceMetrics: "Deployment success rate and time",
-      operatingParameters: "Deployment complexity and system resources"
-    }
-  },
-];
+import { supabase } from "@/lib/supabase";
+import { useQuery } from "@tanstack/react-query";
 
 export const AIHub = () => {
   const [selectedAgent, setSelectedAgent] = useState<Agent | null>(null);
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const fetchAgents = async () => {
+    const { data, error } = await supabase
+      .from('ea_info')
+      .select('*');
+    
+    if (error) {
+      throw error;
+    }
+
+    return data as Agent[];
+  };
+
+  const { data: agents = [], isLoading, error } = useQuery({
+    queryKey: ['agents'],
+    queryFn: fetchAgents,
+  });
+
+  const filteredAgents = agents.filter(agent =>
+    agent.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    agent.objective.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
     <section id="ai-hub" className="py-16 bg-gray-50">
@@ -111,6 +52,8 @@ export const AIHub = () => {
             <Input
               placeholder="Search expert agents..."
               className="pl-10"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
             />
           </div>
           <Button variant="outline" className="flex items-center gap-2">
@@ -119,8 +62,18 @@ export const AIHub = () => {
           </Button>
         </div>
 
+        {isLoading && (
+          <div className="text-center py-8">Loading agents...</div>
+        )}
+
+        {error && (
+          <div className="text-center py-8 text-red-500">
+            Error loading agents: {error.message}
+          </div>
+        )}
+
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-          {agents.map((agent) => (
+          {filteredAgents.map((agent) => (
             <AgentCard
               key={agent.name}
               agent={agent}
